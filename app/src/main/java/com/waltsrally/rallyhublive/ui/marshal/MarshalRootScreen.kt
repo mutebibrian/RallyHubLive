@@ -5,7 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,7 +24,7 @@ private val MARSHAL_TABS = listOf(
     NavItem("Start",    Icons.Default.Star),
     NavItem("Finish",   Icons.Default.PlayArrow),
     NavItem("Sections", Icons.Default.Place),
-    NavItem("Board",    Icons.Default.List),
+    NavItem("Board",    Icons.Default.Menu),
     NavItem("Admin",    Icons.Default.Settings)
 )
 

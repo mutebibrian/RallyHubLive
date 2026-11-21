@@ -2,10 +2,10 @@ package com.waltsrally.rallyhublive.ui.marshal
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,10 +21,10 @@ import com.waltsrally.rallyhublive.viewmodel.MarshalViewModel
 private data class NavItem(val label: String, val icon: ImageVector)
 
 private val MARSHAL_TABS = listOf(
-    NavItem("Start",    Icons.Default.Flag),
-    NavItem("Finish",   Icons.Default.Timer),
-    NavItem("Sections", Icons.Default.Map),
-    NavItem("Board",    Icons.Default.BarChart),
+    NavItem("Start",    Icons.Default.Star),
+    NavItem("Finish",   Icons.Default.PlayArrow),
+    NavItem("Sections", Icons.Default.Place),
+    NavItem("Board",    Icons.Default.List),
     NavItem("Admin",    Icons.Default.Settings)
 )
 

@@ -11,15 +11,17 @@ data class LoginRequest(
 )
 
 data class UserInfo(
-    val id: Int,
+    val id: Int? = null,
     val name: String,
     val role: String,          // "marshal" | "driver" | "admin" | "tc"
-    @SerializedName("car_number") val carNumber: String? = null,
-    val token: String
+    val type: String? = null,  // "marshal" | "driver"
+    val car: String? = null,   // driver's car number
+    val cp: String? = null,    // marshal checkpoint type
+    val co: String? = null     // co-driver name
 )
 
 data class LoginResponse(
-    val ok: Boolean,
+    val ok: Boolean? = null,
     val user: UserInfo? = null,
     val error: String? = null
 )
@@ -36,8 +38,8 @@ data class RhlSection(
 )
 
 data class SectionsResponse(
-    val ok: Boolean,
-    val sections: List<RhlSection> = emptyList()
+    val ok: Boolean? = null,
+    val sections: List<RhlSection>? = null
 )
 
 // ── Cars ──────────────────────────────────────────────────────────────────────
@@ -54,8 +56,8 @@ data class CarEntry(
 }
 
 data class CarsResponse(
-    val ok: Boolean,
-    val cars: List<CarEntry> = emptyList()
+    val ok: Boolean? = null,
+    val cars: List<CarEntry>? = null
 )
 
 // ── Start ─────────────────────────────────────────────────────────────────────
@@ -66,8 +68,8 @@ data class RecordStartRequest(
 )
 
 data class RecordStartResponse(
-    val ok: Boolean,
-    val car: String,
+    val ok: Boolean? = null,
+    val car: String? = null,
     @SerializedName("start_time") val startTime: String? = null,
     val error: String? = null
 )
@@ -81,7 +83,7 @@ data class RecordTimeRequest(
 )
 
 data class RecordTimeResponse(
-    val ok: Boolean,
+    val ok: Boolean? = null,
     val car: String? = null,
     val error: String? = null
 )
@@ -94,7 +96,7 @@ data class RecordDNFRequest(
 )
 
 data class RecordDNFResponse(
-    val ok: Boolean,
+    val ok: Boolean? = null,
     val car: String? = null,
     val error: String? = null
 )
@@ -113,8 +115,8 @@ data class StageResult(
 )
 
 data class ResultsResponse(
-    val ok: Boolean,
-    val results: List<StageResult> = emptyList()
+    val ok: Boolean? = null,
+    val results: List<StageResult>? = null
 )
 
 // ── Board ─────────────────────────────────────────────────────────────────────
@@ -131,8 +133,8 @@ data class BoardEntry(
 )
 
 data class BoardResponse(
-    val ok: Boolean,
-    val board: List<BoardEntry> = emptyList()
+    val ok: Boolean? = null,
+    val board: List<BoardEntry>? = null
 )
 
 // ── Admin set start time ──────────────────────────────────────────────────────
@@ -146,6 +148,6 @@ data class SetAdminStartRequest(
 // ── Generic OK ────────────────────────────────────────────────────────────────
 
 data class OkResponse(
-    val ok: Boolean,
+    val ok: Boolean? = null,
     val error: String? = null
 )

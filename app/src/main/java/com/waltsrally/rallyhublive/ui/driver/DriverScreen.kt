@@ -35,8 +35,8 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
         scope.launch {
             loading = true; error = null
             try {
-                val resp = RetrofitClient.api.driverResults(token = user.token)
-                if (resp.ok) results = resp.results else error = "No results yet"
+                val resp = RetrofitClient.api.driverResults()
+                if (resp.ok == true) results = resp.results ?: emptyList() else error = "No results yet"
             } catch (e: Exception) {
                 error = e.message
             } finally {
@@ -54,7 +54,7 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
                 title = {
                     Column {
                         Text("RallyHub Live", color = RallyWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                        Text("Car #${user.carNumber ?: ""} · ${user.name}", color = RallyGold, fontSize = 11.sp)
+                        Text("Car #${user.car ?: ""} · ${user.name}", color = RallyGold, fontSize = 11.sp)
                     }
                 },
                 actions = {

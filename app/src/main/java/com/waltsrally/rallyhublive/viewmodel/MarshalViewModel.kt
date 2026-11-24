@@ -53,10 +53,7 @@ class MarshalViewModel : ViewModel() {
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage
 
-    private var token: String = ""
-
-    fun init(token: String) {
-        this.token = token
+    fun init() {
         loadSections()
     }
 
@@ -64,9 +61,9 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             _loading.value = true
             try {
-                val resp = RetrofitClient.api.getSections(token = token)
-                if (resp.ok) {
-                    _sections.value = resp.sections
+                val resp = RetrofitClient.api.getSections()
+                if (resp.ok == true) {
+                    _sections.value = resp.sections ?: emptyList()
                     if (_selectedSection.value == null) {
                         _selectedSection.value = resp.sections.firstOrNull()
                     }
@@ -89,8 +86,8 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             _loading.value = true
             try {
-                val resp = RetrofitClient.api.getAllCars(token = token, sectionId = sid)
-                if (resp.ok) _cars.value = resp.cars
+                val resp = RetrofitClient.api.getAllCars(sectionId = sid)
+                if (resp.ok == true) _cars.value = resp.cars ?: emptyList()
             } catch (e: Exception) {
                 _error.value = e.message
             } finally {
@@ -104,10 +101,9 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val resp = RetrofitClient.api.recordStart(
-                    token = token,
                     body  = RecordStartRequest(sectionId = sid, carNumber = carNumber)
                 )
-                if (resp.ok) {
+                if (resp.ok == true) {
                     // Flash the cell, then refresh
                     _flashedCar.value = carNumber
                     delay(600)
@@ -127,10 +123,9 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val resp = RetrofitClient.api.setAdminStartTime(
-                    token = token,
                     body  = SetAdminStartRequest(sectionId = sid, carNumber = carNumber, startTime = timeString)
                 )
-                if (resp.ok) {
+                if (resp.ok == true) {
                     _toastMessage.value = "✅ Car #$carNumber set to ${resp.startTime?.substring(11, 19) ?: timeString}"
                     loadAllCars()
                 } else {
@@ -171,10 +166,9 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val resp = RetrofitClient.api.recordTime(
-                    token = token,
                     body  = RecordTimeRequest(sectionId = sid, carNumber = carNumber)
                 )
-                if (resp.ok) {
+                if (resp.ok == true) {
                     _flashedCar.value = carNumber
                     delay(600)
                     _flashedCar.value = null
@@ -193,10 +187,9 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val resp = RetrofitClient.api.recordDnf(
-                    token = token,
                     body  = RecordDNFRequest(sectionId = sid, carNumber = carNumber)
                 )
-                if (resp.ok) {
+                if (resp.ok == true) {
                     _flashedCar.value = carNumber
                     delay(600)
                     _flashedCar.value = null
@@ -214,8 +207,8 @@ class MarshalViewModel : ViewModel() {
         val sid = _selectedSection.value?.id ?: return
         viewModelScope.launch {
             try {
-                val resp = RetrofitClient.api.getResults(token = token, sectionId = sid)
-                if (resp.ok) _results.value = resp.results
+                val resp = RetrofitClient.api.getResults(sectionId = sid)
+                if (resp.ok == true) _results.value = resp.results.orEmpty()
             } catch (e: Exception) {
                 _error.value = e.message
             }
@@ -226,8 +219,8 @@ class MarshalViewModel : ViewModel() {
         val sid = _selectedSection.value?.id ?: return
         viewModelScope.launch {
             try {
-                val resp = RetrofitClient.api.getBoard(token = token, sectionId = sid)
-                if (resp.ok) _board.value = resp.board
+                val resp = RetrofitClient.api.getBoard(sectionId = sid)
+                if (resp.ok == true) _board.value = resp.board.orEmpty()
             } catch (e: Exception) {
                 _error.value = e.message
             }

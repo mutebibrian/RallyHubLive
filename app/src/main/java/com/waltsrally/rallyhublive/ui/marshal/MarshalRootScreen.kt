@@ -33,7 +33,7 @@ fun MarshalRootScreen(user: UserInfo, auth: AuthViewModel) {
     val vm = remember { MarshalViewModel() }
     var selectedTab by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(user.token) { vm.init(user.token) }
+    LaunchedEffect(Unit) { vm.init() }
 
     Scaffold(
         containerColor = RallyBlack,

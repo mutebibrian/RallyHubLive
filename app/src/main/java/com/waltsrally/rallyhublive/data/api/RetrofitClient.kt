@@ -1,5 +1,8 @@
 package com.waltsrally.rallyhublive.data.api
 
+import okhttp3.Cookie
+import okhttp3.CookieJar
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,7 +12,18 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
     private const val BASE_URL = "http://104.236.102.47/"
 
+    // Persist session cookies across requests (mirrors iOS URLSession cookie storage)
+    private val cookieJar = object : CookieJar {
+        private val store = mutableListOf<Cookie>()
+        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+            store.removeAll { existing -> cookies.any { it.name == existing.name } }
+            store.addAll(cookies)
+        }
+        override fun loadForRequest(url: HttpUrl): List<Cookie> = store.toList()
+    }
+
     private val okHttpClient = OkHttpClient.Builder()
+        .cookieJar(cookieJar)
         .addInterceptor { chain ->
             chain.proceed(
                 chain.request().newBuilder()

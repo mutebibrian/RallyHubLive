@@ -16,18 +16,14 @@ interface APIService {
     // ── Sections ──────────────────────────────────────────────────────────────
     @GET("rally_hub_live.php")
     suspend fun getSections(
-        @Query("api") api: String = "get_sections",
-        @Query("token") token: String,
-        @Query("event_id") eventId: Int = 13
+        @Query("api") api: String = "sections"
     ): SectionsResponse
 
     // ── Cars ──────────────────────────────────────────────────────────────────
     @GET("rally_hub_live.php")
     suspend fun getAllCars(
         @Query("api") api: String = "get_all_cars",
-        @Query("token") token: String,
-        @Query("section_id") sectionId: Int,
-        @Query("event_id") eventId: Int = 13
+        @Query("section_id") sectionId: Int
     ): CarsResponse
 
     // ── Start marshal ─────────────────────────────────────────────────────────
@@ -35,7 +31,6 @@ interface APIService {
     @Headers("Content-Type: application/json")
     suspend fun recordStart(
         @Query("api") api: String = "record_start",
-        @Query("token") token: String,
         @Body body: RecordStartRequest
     ): RecordStartResponse
 
@@ -44,7 +39,6 @@ interface APIService {
     @Headers("Content-Type: application/json")
     suspend fun setAdminStartTime(
         @Query("api") api: String = "set_admin_start_time",
-        @Query("token") token: String,
         @Body body: SetAdminStartRequest
     ): RecordStartResponse
 
@@ -52,8 +46,7 @@ interface APIService {
     @POST("rally_hub_live.php")
     @Headers("Content-Type: application/json")
     suspend fun recordTime(
-        @Query("api") api: String = "record_time",
-        @Query("token") token: String,
+        @Query("api") api: String = "record_ff",
         @Body body: RecordTimeRequest
     ): RecordTimeResponse
 
@@ -61,32 +54,25 @@ interface APIService {
     @POST("rally_hub_live.php")
     @Headers("Content-Type: application/json")
     suspend fun recordDnf(
-        @Query("api") api: String = "record_dnf",
-        @Query("token") token: String,
+        @Query("api") api: String = "record_ff",
         @Body body: RecordDNFRequest
     ): RecordDNFResponse
 
     // ── Results ───────────────────────────────────────────────────────────────
     @GET("rally_hub_live.php")
     suspend fun getResults(
-        @Query("api") api: String = "get_results",
-        @Query("token") token: String,
-        @Query("section_id") sectionId: Int,
-        @Query("event_id") eventId: Int = 13
+        @Query("api") api: String = "recent_times",
+        @Query("section_id") sectionId: Int
     ): ResultsResponse
 
     @GET("rally_hub_live.php")
     suspend fun getBoard(
         @Query("api") api: String = "get_board",
-        @Query("token") token: String,
-        @Query("section_id") sectionId: Int,
-        @Query("event_id") eventId: Int = 13
+        @Query("section_id") sectionId: Int
     ): BoardResponse
 
     @GET("rally_hub_live.php")
     suspend fun driverResults(
-        @Query("api") api: String = "driver_results",
-        @Query("token") token: String,
-        @Query("event_id") eventId: Int = 13
+        @Query("api") api: String = "driver_results"
     ): ResultsResponse
 }

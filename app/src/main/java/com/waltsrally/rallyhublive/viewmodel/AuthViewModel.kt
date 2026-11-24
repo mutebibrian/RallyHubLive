@@ -53,12 +53,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun login(pin: String, type: String) {
+    fun login(username: String, password: String, type: String) {
         viewModelScope.launch {
             _loading.value = true
             _error.value = null
             try {
-                val resp = RetrofitClient.api.login(body = LoginRequest(pin = pin, type = type))
+                val resp = RetrofitClient.api.login(body = LoginRequest(username = username, password = password, type = type))
                 if (resp.ok && resp.user != null) {
                     _user.value = resp.user
                     dataStore.edit { prefs ->
@@ -69,7 +69,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                         if (resp.user.carNumber != null) prefs[KEY_CAR] = resp.user.carNumber
                     }
                 } else {
-                    _error.value = resp.error ?: "Invalid PIN"
+                    _error.value = resp.error ?: "Invalid credentials"
                 }
             } catch (e: Exception) {
                 _error.value = e.message ?: "Network error"

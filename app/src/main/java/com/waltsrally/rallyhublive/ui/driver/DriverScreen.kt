@@ -36,7 +36,8 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
             loading = true; error = null
             try {
                 val resp = RetrofitClient.api.driverResults()
-                if (resp.ok == true) results = resp.results ?: emptyList() else error = "No results yet"
+                val list = resp.results ?: emptyList()
+                if (list.isNotEmpty()) results = list else error = "No results yet"
             } catch (e: Exception) {
                 error = e.message
             } finally {

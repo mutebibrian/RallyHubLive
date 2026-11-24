@@ -66,12 +66,6 @@ interface APIService {
     ): ResultsResponse
 
     @GET("rally_hub_live.php")
-    suspend fun getBoard(
-        @Query("api") api: String = "get_board",
-        @Query("section_id") sectionId: Int
-    ): BoardResponse
-
-    @GET("rally_hub_live.php")
     suspend fun driverResults(
         @Query("api") api: String = "driver_results"
     ): ResultsResponse

@@ -62,11 +62,14 @@ class MarshalViewModel : ViewModel() {
             _loading.value = true
             try {
                 val resp = RetrofitClient.api.getSections()
-                if (resp.ok == true) {
-                    _sections.value = resp.sections ?: emptyList()
+                val secs = resp.sections ?: emptyList()
+                if (secs.isNotEmpty()) {
+                    _sections.value = secs
                     if (_selectedSection.value == null) {
-                        _selectedSection.value = resp.sections.firstOrNull()
+                        _selectedSection.value = secs.firstOrNull()
                     }
+                } else if (resp.ok == false) {
+                    _error.value = resp.error ?: "Failed to load sections"
                 }
             } catch (e: Exception) {
                 _error.value = e.message
@@ -87,7 +90,7 @@ class MarshalViewModel : ViewModel() {
             _loading.value = true
             try {
                 val resp = RetrofitClient.api.getAllCars(sectionId = sid)
-                if (resp.ok == true) _cars.value = resp.cars ?: emptyList()
+                _cars.value = resp.cars ?: emptyList()
             } catch (e: Exception) {
                 _error.value = e.message
             } finally {
@@ -208,7 +211,8 @@ class MarshalViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val resp = RetrofitClient.api.getResults(sectionId = sid)
-                if (resp.ok == true) _results.value = resp.results.orEmpty()
+                // server returns {times:[...]} for recent_times endpoint
+                _results.value = (resp.times ?: resp.results).orEmpty()
             } catch (e: Exception) {
                 _error.value = e.message
             }
@@ -216,15 +220,8 @@ class MarshalViewModel : ViewModel() {
     }
 
     fun loadBoard() {
-        val sid = _selectedSection.value?.id ?: return
-        viewModelScope.launch {
-            try {
-                val resp = RetrofitClient.api.getBoard(sectionId = sid)
-                if (resp.ok == true) _board.value = resp.board.orEmpty()
-            } catch (e: Exception) {
-                _error.value = e.message
-            }
-        }
+        // get_board endpoint not implemented on server — use recent_times as board data
+        loadResults()
     }
 
     fun clearToast() { _toastMessage.value = null }

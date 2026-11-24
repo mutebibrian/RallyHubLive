@@ -39,7 +39,8 @@ data class RhlSection(
 
 data class SectionsResponse(
     val ok: Boolean? = null,
-    val sections: List<RhlSection>? = null
+    val sections: List<RhlSection>? = null,
+    @SerializedName("event_id") val eventId: Int? = null
 )
 
 // ── Cars ──────────────────────────────────────────────────────────────────────
@@ -57,7 +58,8 @@ data class CarEntry(
 
 data class CarsResponse(
     val ok: Boolean? = null,
-    val cars: List<CarEntry>? = null
+    val cars: List<CarEntry>? = null,
+    @SerializedName("section_id") val sectionId: Int? = null
 )
 
 // ── Start ─────────────────────────────────────────────────────────────────────
@@ -114,9 +116,12 @@ data class StageResult(
     val status: String = ""
 )
 
+// recent_times returns {times:[...]}, driver_results returns {results:[...]}
 data class ResultsResponse(
     val ok: Boolean? = null,
-    val results: List<StageResult>? = null
+    val results: List<StageResult>? = null,
+    val times: List<StageResult>? = null,   // used by recent_times endpoint
+    val car: String? = null
 )
 
 // ── Board ─────────────────────────────────────────────────────────────────────

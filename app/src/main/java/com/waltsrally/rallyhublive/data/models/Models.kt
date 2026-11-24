@@ -7,8 +7,7 @@ import com.google.gson.annotations.SerializedName
 data class LoginRequest(
     val username: String,
     val password: String,
-    val type: String,          // "marshal" | "driver"
-    @SerializedName("event_id") val eventId: Int = 13
+    val type: String           // "marshal" | "driver"
 )
 
 data class UserInfo(

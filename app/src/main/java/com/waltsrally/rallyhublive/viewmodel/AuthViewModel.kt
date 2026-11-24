@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.security.MessageDigest
 
 private val android.content.Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -54,18 +53,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    private fun md5(input: String): String {
-        val bytes = MessageDigest.getInstance("MD5").digest(input.toByteArray())
-        return bytes.joinToString("") { "%02x".format(it) }
-    }
-
     fun login(username: String, password: String, type: String) {
         viewModelScope.launch {
             _loading.value = true
             _error.value = null
             try {
-                val hashedPassword = md5(password)
-                val resp = RetrofitClient.api.login(body = LoginRequest(username = username, password = hashedPassword, type = type))
+                val resp = RetrofitClient.api.login(body = LoginRequest(username = username, password = password, type = type))
                 if (resp.ok && resp.user != null) {
                     _user.value = resp.user
                     dataStore.edit { prefs ->

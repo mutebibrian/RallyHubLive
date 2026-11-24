@@ -5,27 +5,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 // ── Palette ───────────────────────────────────────────────────────────────────
-val RallyBlack    = Color(0xFF0A0A0A)
-val RallyDark     = Color(0xFF161616)
-val RallyCard     = Color(0xFF1E1E1E)
-val RallyBorder   = Color(0xFF2C2C2E)
-val RallyGold     = Color(0xFFF5C842)
-val RallyGreen    = Color(0xFF34C759)
-val RallyRed      = Color(0xFFFF3B30)
-val RallyBlue     = Color(0xFF007AFF)
-val RallyGray     = Color(0xFF8E8E93)
-val RallyWhite    = Color(0xFFF2F2F7)
-val RallySubtext  = Color(0xFF6D6D72)
+// Dark surfaces (kept for explicit containerColor overrides)
+val RallyBlack    = Color(0xFF1A1A1A)
+val RallyDark     = Color(0xFFFFFFFF)   // top bars → white in light theme
+val RallyCard     = Color(0xFFF5F5F5)   // card backgrounds
+val RallyBorder   = Color(0xFFE0E0E0)
+// Brand colours
+val RallyGold     = Color(0xFFD4A017)   // slightly deeper gold for legibility on white
+val RallyGreen    = Color(0xFF2E7D32)
+val RallyRed      = Color(0xFFD32F2F)
+val RallyBlue     = Color(0xFF1565C0)
+val RallyGray     = Color(0xFF757575)
+val RallyWhite    = Color(0xFF212121)   // text on light bg → near-black
+val RallySubtext  = Color(0xFF9E9E9E)
 
-private val DarkColorScheme = darkColorScheme(
+private val LightColorScheme = lightColorScheme(
     primary          = RallyGold,
-    onPrimary        = RallyBlack,
-    primaryContainer = Color(0xFF3A3000),
-    background       = RallyBlack,
-    surface          = RallyDark,
+    onPrimary        = Color.White,
+    primaryContainer = Color(0xFFFFF3CD),
+    background       = Color(0xFFF8F8F8),
+    surface          = Color.White,
     surfaceVariant   = RallyCard,
-    onBackground     = RallyWhite,
-    onSurface        = RallyWhite,
+    onBackground     = Color(0xFF212121),
+    onSurface        = Color(0xFF212121),
     onSurfaceVariant = RallyGray,
     outline          = RallyBorder,
     error            = RallyRed,
@@ -36,7 +38,7 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun RallyHubTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = LightColorScheme,
         typography  = Typography(),
         content     = content
     )

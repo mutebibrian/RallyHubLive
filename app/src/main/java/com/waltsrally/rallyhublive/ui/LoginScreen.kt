@@ -2,6 +2,8 @@ package com.waltsrally.rallyhublive.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import com.waltsrally.rallyhublive.ui.theme.RallyGold
+import com.waltsrally.rallyhublive.ui.theme.RallyRed
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions

@@ -163,7 +163,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
                             onDone = {
                                 focusMgr.clearFocus()
                                 if (pin.isNotBlank() && !loading)
-                                    viewModel.login(pin)
+                                    viewModel.login(pin, if (mode == LoginMode.MARSHAL) "marshal" else "driver")
                             }
                         ),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -191,7 +191,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
 
                     // ── Login button ──────────────────────────────────────
                     Button(
-                        onClick  = { viewModel.login(pin) },
+                        onClick  = { viewModel.login(pin, if (mode == LoginMode.MARSHAL) "marshal" else "driver") },
                         enabled  = pin.isNotBlank() && !loading,
                         colors   = ButtonDefaults.buttonColors(
                             containerColor         = RallyGold,

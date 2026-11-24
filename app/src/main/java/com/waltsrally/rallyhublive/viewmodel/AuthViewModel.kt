@@ -53,12 +53,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun login(pin: String) {
+    fun login(pin: String, type: String) {
         viewModelScope.launch {
             _loading.value = true
             _error.value = null
             try {
-                val resp = RetrofitClient.api.login(body = LoginRequest(pin = pin))
+                val resp = RetrofitClient.api.login(body = LoginRequest(pin = pin, type = type))
                 if (resp.ok && resp.user != null) {
                     _user.value = resp.user
                     dataStore.edit { prefs ->

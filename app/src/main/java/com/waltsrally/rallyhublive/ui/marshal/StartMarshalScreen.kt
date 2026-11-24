@@ -55,6 +55,7 @@ fun StartMarshalScreen(vm: MarshalViewModel) {
         if (selectedSection != null) vm.loadAllCars()
     }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -222,6 +223,7 @@ fun StartMarshalScreen(vm: MarshalViewModel) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Full-screen start focus overlay
 // ─────────────────────────────────────────────────────────────────────────────
+}
 
 @Composable
 fun StartFocusOverlay(

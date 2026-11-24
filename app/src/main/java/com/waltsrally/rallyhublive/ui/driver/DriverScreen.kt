@@ -30,6 +30,7 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
     var loading  by remember { mutableStateOf(false) }
     var error    by remember { mutableStateOf<String?>(null) }
     val scope    = rememberCoroutineScope()
+        }
 
     fun load() {
         scope.launch {
@@ -70,6 +71,7 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
             )
         }
     ) { padding ->
+        TabletFrame {
         Box(modifier = Modifier.fillMaxSize().padding(padding)) {
             when {
                 loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

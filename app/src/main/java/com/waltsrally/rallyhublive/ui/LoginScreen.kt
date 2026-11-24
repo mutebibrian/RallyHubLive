@@ -53,6 +53,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
         viewModel.clearError()
     }
 
+    TabletFrame {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -263,4 +264,5 @@ fun LoginScreen(viewModel: AuthViewModel) {
             }
         }
     }
+}
 }

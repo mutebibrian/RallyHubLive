@@ -30,6 +30,7 @@ fun BoardScreen(vm: MarshalViewModel) {
 
     LaunchedEffect(selected) { vm.loadResults() }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -85,6 +86,7 @@ fun BoardScreen(vm: MarshalViewModel) {
     if (showSectionPicker) {
         SectionPickerDialog(sections = sections, onSelect = { vm.selectSection(it); showSectionPicker = false }, onDismiss = { showSectionPicker = false })
     }
+}
 }
 
 @Composable

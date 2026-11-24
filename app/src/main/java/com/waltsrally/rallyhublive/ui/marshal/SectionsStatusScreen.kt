@@ -27,6 +27,7 @@ fun SectionsStatusScreen(vm: MarshalViewModel) {
 
     LaunchedEffect(Unit) { vm.loadSections() }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,6 +58,7 @@ fun SectionsStatusScreen(vm: MarshalViewModel) {
             }
         }
     }
+}
 }
 
 @Composable

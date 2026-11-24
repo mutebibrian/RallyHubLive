@@ -39,6 +39,7 @@ fun AdminScreen(vm: MarshalViewModel) {
         }
     }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,6 +94,7 @@ fun AdminScreen(vm: MarshalViewModel) {
             onDismiss = { editCar = null }
         )
     }
+}
 }
 
 @Composable

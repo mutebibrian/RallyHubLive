@@ -47,6 +47,7 @@ fun TimeEntryScreen(vm: MarshalViewModel) {
         if (selectedSection != null) vm.loadAllCars()
     }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,6 +111,7 @@ fun TimeEntryScreen(vm: MarshalViewModel) {
     if (showSectionPicker) {
         SectionPickerDialog(sections = sections, onSelect = { vm.selectSection(it); showSectionPicker = false }, onDismiss = { showSectionPicker = false })
     }
+}
 }
 
 @Composable

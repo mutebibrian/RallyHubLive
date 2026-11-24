@@ -64,6 +64,7 @@ fun FinishMarshalScreen(vm: MarshalViewModel) {
         onDispose { vm.stopFinishPolling() }
     }
 
+    TabletFrame {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -277,6 +278,7 @@ fun FinishMarshalScreen(vm: MarshalViewModel) {
 }
 
 // ── In Transit card ───────────────────────────────────────────────────────────
+}
 
 @Composable
 fun InTransitCard(

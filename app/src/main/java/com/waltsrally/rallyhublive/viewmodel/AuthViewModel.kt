@@ -85,4 +85,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             _user.value = null
         }
     }
+
+    fun clearError() { _error.value = null }
 }

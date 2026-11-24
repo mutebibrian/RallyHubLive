@@ -106,14 +106,19 @@ data class RecordDNFResponse(
 // ── Results ───────────────────────────────────────────────────────────────────
 
 data class StageResult(
-    @SerializedName("car_number") val carNumber: String,
-    @SerializedName("driver_name") val driverName: String = "",
-    @SerializedName("section_code") val sectionCode: String = "",
-    @SerializedName("section_name") val sectionName: String = "",
+    @SerializedName("car_number") val carNumber: String? = null,
+    @SerializedName("driver_name") val driverName: String? = null,
+    @SerializedName("section_code") val sectionCode: String? = null,
+    @SerializedName("section_name") val sectionName: String? = null,
     @SerializedName("start_time") val startTime: String? = null,
     @SerializedName("finish_time") val finishTime: String? = null,
+    // server sends "elapsed_seconds" (not ms) as a string like "27.395"
+    @SerializedName("elapsed_seconds") val elapsedSeconds: String? = null,
     @SerializedName("elapsed_ms") val elapsedMs: Double? = null,
-    val status: String = ""
+    @SerializedName("ff_time") val ffTime: String? = null,
+    @SerializedName("is_dnf") val isDnf: Int? = null,
+    @SerializedName("marshal_name") val marshalName: String? = null,
+    val status: String? = null
 )
 
 // recent_times returns {times:[...]}, driver_results returns {results:[...]}

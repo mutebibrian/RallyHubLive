@@ -95,7 +95,9 @@ fun ResultRow(pos: Int, result: StageResult) {
         3    -> Color(0xFFCD7F32)
         else -> RallyGray
     }
-    val elapsed = result.elapsedMs?.let { formatElapsed(it) } ?: "—"
+    val elapsed = result.elapsedSeconds?.toDoubleOrNull()?.let { formatElapsed(it * 1000.0) }
+        ?: result.elapsedMs?.let { formatElapsed(it) }
+        ?: "—"
 
     Row(
         modifier = Modifier
@@ -111,14 +113,14 @@ fun ResultRow(pos: Int, result: StageResult) {
             modifier = Modifier.width(36.dp)
         )
         Text(
-            text  = result.carNumber,
+            text  = result.carNumber ?: "—",
             color = RallyWhite,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.width(44.dp)
         )
         Text(
-            text     = result.driverName,
+            text     = result.driverName ?: "",
             color    = RallyWhite,
             fontSize = 13.sp,
             maxLines = 1,

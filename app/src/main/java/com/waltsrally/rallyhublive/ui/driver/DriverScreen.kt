@@ -100,7 +100,10 @@ fun DriverRootScreen(user: UserInfo, auth: AuthViewModel) {
 
 @Composable
 fun DriverResultCard(pos: Int, result: StageResult) {
-    val elapsed = result.elapsedMs?.let { formatElapsed(it) } ?: "—"
+    // server sends elapsed_seconds as a string; fall back to elapsed_ms if present
+    val elapsed = result.elapsedSeconds?.toDoubleOrNull()?.let { formatElapsedSeconds(it) }
+        ?: result.elapsedMs?.let { formatElapsedSeconds(it / 1000.0) }
+        ?: "—"
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,26 +120,35 @@ fun DriverResultCard(pos: Int, result: StageResult) {
             modifier = Modifier.width(32.dp)
         )
         Column(modifier = Modifier.weight(1f)) {
-            Text(result.sectionCode, color = RallyGold, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-            Text(result.sectionName, color = RallyWhite, fontSize = 15.sp, fontWeight = FontWeight.Medium)
-            if (result.startTime != null) {
+            if (!result.sectionCode.isNullOrEmpty()) {
+                Text(result.sectionCode, color = RallyGold, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            }
+            Text(result.sectionName ?: "Stage", color = RallyWhite, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+            if (result.startTime != null && result.startTime.length >= 19) {
                 Text("Start: ${result.startTime.substring(11, 19)}", color = RallyGray, fontSize = 12.sp)
             }
+            if (result.marshalName != null) {
+                Text("Marshal: ${result.marshalName}", color = RallyGray, fontSize = 11.sp)
+            }
         }
-        Text(
-            text  = elapsed,
-            color = RallyGold,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            fontFamily = FontFamily.Monospace
-        )
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text  = elapsed,
+                color = RallyGold,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                fontFamily = FontFamily.Monospace
+            )
+            if (result.isDnf == 1) {
+                Text("DNF", color = RallyRed, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+            }
+        }
     }
 }
 
-private fun formatElapsed(ms: Double): String {
-    val totalSeconds = (ms / 1000).toLong()
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-    val millis  = ((ms % 1000) / 10).toInt()
-    return "%d:%02d.%02d".format(minutes, seconds, millis)
+private fun formatElapsedSeconds(totalSec: Double): String {
+    val minutes = (totalSec / 60).toLong()
+    val seconds = (totalSec % 60).toLong()
+    val hundredths = ((totalSec % 1) * 100).toInt()
+    return "%d:%02d.%02d".format(minutes, seconds, hundredths)
 }

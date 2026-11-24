@@ -69,7 +69,7 @@ class MarshalViewModel : ViewModel() {
                         _selectedSection.value = secs.firstOrNull()
                     }
                 } else if (resp.ok == false) {
-                    _error.value = resp.error ?: "Failed to load sections"
+                    _error.value = "Failed to load sections"
                 }
             } catch (e: Exception) {
                 _error.value = e.message

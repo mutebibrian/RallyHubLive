@@ -5,8 +5,7 @@ import com.google.gson.annotations.SerializedName
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
 data class LoginRequest(
-    val username: String,
-    val password: String,
+    val pin: String,
     @SerializedName("event_id") val eventId: Int = 13
 )
 

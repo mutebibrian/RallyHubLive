@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
@@ -41,16 +40,14 @@ private val SubtitleGray  = Color(0xFF8E8E93)
 
 @Composable
 fun LoginScreen(viewModel: AuthViewModel) {
-    var mode     by remember { mutableStateOf(LoginMode.MARSHAL) }
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    val loading  by viewModel.loading.collectAsState()
-    val error    by viewModel.error.collectAsState()
+    var mode    by remember { mutableStateOf(LoginMode.MARSHAL) }
+    var pin     by remember { mutableStateOf("") }
+    val loading by viewModel.loading.collectAsState()
+    val error   by viewModel.error.collectAsState()
     val focusMgr = LocalFocusManager.current
 
     LaunchedEffect(mode) {
-        username = ""
-        password = ""
+        pin = ""
         viewModel.clearError()
     }
 
@@ -144,9 +141,9 @@ fun LoginScreen(viewModel: AuthViewModel) {
 
                     Spacer(Modifier.height(16.dp))
 
-                    // USERNAME
+                    // PIN / PASSWORD
                     Text(
-                        text          = "USERNAME",
+                        text          = "PIN / PASSWORD",
                         fontSize      = 11.sp,
                         fontWeight    = FontWeight.SemiBold,
                         color         = LabelGray,
@@ -154,42 +151,8 @@ fun LoginScreen(viewModel: AuthViewModel) {
                     )
                     Spacer(Modifier.height(6.dp))
                     OutlinedTextField(
-                        value         = username,
-                        onValueChange = { username = it },
-                        singleLine    = true,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction    = ImeAction.Next
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onNext = { focusMgr.moveFocus(FocusDirection.Down) }
-                        ),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = RallyGold,
-                            unfocusedBorderColor = Color(0xFFD1D1D6),
-                            focusedTextColor     = TextDark,
-                            unfocusedTextColor   = TextDark,
-                            focusedContainerColor   = FieldBg,
-                            unfocusedContainerColor = FieldBg
-                        ),
-                        shape    = RoundedCornerShape(10.dp),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(Modifier.height(14.dp))
-
-                    // PASSWORD
-                    Text(
-                        text          = "PASSWORD",
-                        fontSize      = 11.sp,
-                        fontWeight    = FontWeight.SemiBold,
-                        color         = LabelGray,
-                        letterSpacing = 1.sp
-                    )
-                    Spacer(Modifier.height(6.dp))
-                    OutlinedTextField(
-                        value         = password,
-                        onValueChange = { password = it },
+                        value         = pin,
+                        onValueChange = { pin = it },
                         singleLine    = true,
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(
@@ -199,8 +162,8 @@ fun LoginScreen(viewModel: AuthViewModel) {
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 focusMgr.clearFocus()
-                                if (username.isNotBlank() && password.isNotBlank() && !loading)
-                                    viewModel.login(username, password)
+                                if (pin.isNotBlank() && !loading)
+                                    viewModel.login(pin)
                             }
                         ),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -228,8 +191,8 @@ fun LoginScreen(viewModel: AuthViewModel) {
 
                     // ── Login button ──────────────────────────────────────
                     Button(
-                        onClick  = { viewModel.login(username, password) },
-                        enabled  = username.isNotBlank() && password.isNotBlank() && !loading,
+                        onClick  = { viewModel.login(pin) },
+                        enabled  = pin.isNotBlank() && !loading,
                         colors   = ButtonDefaults.buttonColors(
                             containerColor         = RallyGold,
                             disabledContainerColor = RallyGold.copy(alpha = 0.4f)

@@ -10,6 +10,13 @@ object RetrofitClient {
     private const val BASE_URL = "http://104.236.102.47/"
 
     private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            chain.proceed(
+                chain.request().newBuilder()
+                    .header("X-Marshal-Token", "RallyHub2026!")
+                    .build()
+            )
+        }
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
